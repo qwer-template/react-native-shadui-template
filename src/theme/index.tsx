@@ -1,17 +1,25 @@
-import {ThemeProvider} from '@react-navigation/native';
+import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import * as React from 'react';
 
-import {NAV_THEME} from '../lib/constants';
-import {Platform} from 'react-native';
+import { NAV_THEME } from '../lib/constants';
+import { Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useColorScheme} from '../lib/useColorScheme';
+import { useColorScheme } from '../lib/useColorScheme';
 
 interface IThemeProps {
   children: React.ReactNode;
 }
+const MyTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: 'rgb(140, 201, 125)',
+    primary: 'rgb(255, 45, 85)',
+  },
+};
 
 const Theme: React.FunctionComponent<IThemeProps> = props => {
-  const {colorScheme, setColorScheme, isDarkColorScheme} = useColorScheme();
+  const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
 
   React.useEffect(() => {
@@ -41,10 +49,8 @@ const Theme: React.FunctionComponent<IThemeProps> = props => {
 
   return (
     <ThemeProvider
-      value={{
-        dark: false,
-        colors: NAV_THEME.light,
-      }}>
+      value={MyTheme}
+    >
       {props.children}
     </ThemeProvider>
   );
